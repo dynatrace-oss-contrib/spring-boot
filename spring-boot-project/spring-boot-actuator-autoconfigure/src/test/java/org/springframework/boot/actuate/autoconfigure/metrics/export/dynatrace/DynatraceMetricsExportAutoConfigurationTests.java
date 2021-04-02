@@ -55,7 +55,7 @@ class DynatraceMetricsExportAutoConfigurationTests {
 
 	@Test
 	void autoConfiguresConfigAndMeterRegistry() {
-		this.contextRunner.withUserConfiguration(BaseConfiguration.class).with(mandatoryProperties())
+		this.contextRunner.withUserConfiguration(BaseConfiguration.class).with(mandatoryV1Properties())
 				.run((context) -> assertThat(context).hasSingleBean(DynatraceMeterRegistry.class)
 						.hasSingleBean(DynatraceConfig.class));
 	}
@@ -84,15 +84,22 @@ class DynatraceMetricsExportAutoConfigurationTests {
 	}
 
 	@Test
-	void allowsCustomRegistryToBeUsed() {
-		this.contextRunner.withUserConfiguration(CustomRegistryConfiguration.class).with(mandatoryProperties())
+	void allowsCustomRegistryToBeUsedV1() {
+		this.contextRunner.withUserConfiguration(CustomRegistryConfiguration.class).with(mandatoryV1Properties())
+				.run((context) -> assertThat(context).hasSingleBean(DynatraceMeterRegistry.class)
+						.hasBean("customRegistry").hasSingleBean(DynatraceConfig.class));
+	}
+
+	@Test
+	void allowsCustomRegistryToBeUsedV2() {
+		this.contextRunner.withUserConfiguration(CustomRegistryConfiguration.class).with(mandatoryV2Properties())
 				.run((context) -> assertThat(context).hasSingleBean(DynatraceMeterRegistry.class)
 						.hasBean("customRegistry").hasSingleBean(DynatraceConfig.class));
 	}
 
 	@Test
 	void stopsMeterRegistryWhenContextIsClosed() {
-		this.contextRunner.withUserConfiguration(BaseConfiguration.class).with(mandatoryProperties()).run((context) -> {
+		this.contextRunner.withUserConfiguration(BaseConfiguration.class).with(mandatoryV1Properties()).run((context) -> {
 			DynatraceMeterRegistry registry = context.getBean(DynatraceMeterRegistry.class);
 			assertThat(registry.isClosed()).isFalse();
 			context.close();
@@ -100,11 +107,18 @@ class DynatraceMetricsExportAutoConfigurationTests {
 		});
 	}
 
-	private Function<ApplicationContextRunner, ApplicationContextRunner> mandatoryProperties() {
+	private Function<ApplicationContextRunner, ApplicationContextRunner> mandatoryV1Properties() {
 		return (runner) -> runner.withPropertyValues(
 				"management.metrics.export.dynatrace.uri=https://dynatrace.example.com",
 				"management.metrics.export.dynatrace.api-token=abcde",
 				"management.metrics.export.dynatrace.device-id=test");
+	}
+
+	private Function<ApplicationContextRunner, ApplicationContextRunner> mandatoryV2Properties() {
+		return (runner) -> runner.withPropertyValues(
+				"management.metrics.export.dynatrace.uri=https://dynatrace.example.com",
+				"management.metrics.export.dynatrace.api-token=abcde",
+				"management.metrics.export.dynatrace.api-version=v2");
 	}
 
 	@Configuration(proxyBeanMethods = false)
