@@ -20,6 +20,8 @@ import io.micrometer.dynatrace.DynatraceConfig;
 
 import org.springframework.boot.actuate.autoconfigure.metrics.export.properties.StepRegistryPropertiesConfigAdapter;
 
+import java.util.List;
+
 /**
  * Adapter to convert {@link DynatraceProperties} to a {@link DynatraceConfig}.
  *
@@ -62,4 +64,23 @@ class DynatracePropertiesConfigAdapter extends StepRegistryPropertiesConfigAdapt
 		return get(DynatraceProperties::getGroup, DynatraceConfig.super::group);
 	}
 
+	@Override
+	public String apiVersion() {
+		return get(DynatraceProperties::getApiVersion, DynatraceConfig.super::apiVersion);
+	}
+
+	@Override
+	public String metricKeyPrefix() {
+		return get(DynatraceProperties::getMetricKeyPrefix, DynatraceConfig.super::metricKeyPrefix);
+	}
+
+	@Override
+	public String defaultDimensions() {
+		return get(DynatraceProperties::getDefaultDimensions, DynatraceConfig.super::defaultDimensions);
+	}
+
+	@Override
+	public boolean enrichWithOneAgentMetadata() {
+		return get(DynatraceProperties::getEnrichWithOneAgentMetadata, DynatraceConfig.super::enrichWithOneAgentMetadata);
+	}
 }

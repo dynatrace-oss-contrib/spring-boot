@@ -18,6 +18,9 @@ package org.springframework.boot.actuate.autoconfigure.metrics.export.dynatrace;
 
 import org.springframework.boot.actuate.autoconfigure.metrics.export.properties.StepRegistryProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.w3c.dom.stylesheets.LinkStyle;
+
+import java.util.List;
 
 /**
  * {@link ConfigurationProperties @ConfigurationProperties} for configuring Dynatrace
@@ -56,6 +59,14 @@ public class DynatraceProperties extends StepRegistryProperties {
 	 * Dynatrace UI.
 	 */
 	private String group;
+
+	private String apiVersion = "v1";
+
+	private String metricKeyPrefix;
+
+	private Boolean enrichWithOneAgentMetadata = false;
+
+	private String defaultDimensions;
 
 	public String getApiToken() {
 		return this.apiToken;
@@ -97,4 +108,35 @@ public class DynatraceProperties extends StepRegistryProperties {
 		this.group = group;
 	}
 
+	public String getMetricKeyPrefix() {
+		return metricKeyPrefix;
+	}
+
+	public void setMetricKeyPrefix(String metricKeyPrefix) {
+		this.metricKeyPrefix = metricKeyPrefix;
+	}
+
+	public String getApiVersion() {
+		return apiVersion;
+	}
+
+	public void setApiVersion(String apiVersion) {
+		this.apiVersion = apiVersion;
+	}
+
+	public Boolean getEnrichWithOneAgentMetadata() {
+		return enrichWithOneAgentMetadata;
+	}
+
+	public void setEnrichWithOneAgentMetadata(Boolean enrichWithOneAgentMetadata) {
+		this.enrichWithOneAgentMetadata = enrichWithOneAgentMetadata;
+	}
+
+	public String getDefaultDimensions() {
+		return defaultDimensions;
+	}
+
+	public void setDefaultDimensions(String defaultDimensions) {
+		this.defaultDimensions = defaultDimensions;
+	}
 }
