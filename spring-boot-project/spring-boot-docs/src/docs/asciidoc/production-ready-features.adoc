@@ -1712,6 +1712,9 @@ You can also change the interval at which metrics are sent to Datadog:
 
 [[production-ready-metrics-export-dynatrace]]
 ==== Dynatrace
+Dynatrace offers two metrics ingest APIs:
+
+===== API v1
 Dynatrace registry pushes metrics to the configured URI periodically.
 To export metrics to {micrometer-registry-docs}/dynatrace[Dynatrace], your API token, device ID, and URI must be provided:
 
@@ -1737,7 +1740,35 @@ You can also change the interval at which metrics are sent to Dynatrace:
 	        step: "30s"
 ----
 
+===== API v2
+The v2 API can be activated by adding the version to the properties:
 
+[source,yaml,indent=0,configprops,configblocks]
+----
+	management:
+	  metrics:
+	    export:
+	      dynatrace:
+	        api-token: "YOUR_TOKEN"
+	        uri: "YOUR_URI"
+            api-version: "v2"
+----
+
+When using the Dynatrace v2 API, new features are available:
+
+[source,yaml,indent=0,configprops,configblocks]
+----
+	management:
+	  metrics:
+	    export:
+	      dynatrace:
+            # ... token, uri, and api-version: "v2" ...
+            metric-key-prefix: "your.key.prefix"
+            enrich-with-oneagent-metadata: true
+            default-dimensions:
+              dimension1: "value1"
+              dimension2: "value2"
+----
 
 [[production-ready-metrics-export-elastic]]
 ==== Elastic
