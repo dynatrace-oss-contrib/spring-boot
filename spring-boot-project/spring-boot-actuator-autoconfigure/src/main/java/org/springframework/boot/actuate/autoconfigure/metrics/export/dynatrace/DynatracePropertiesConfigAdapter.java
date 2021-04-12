@@ -16,8 +16,8 @@
 
 package org.springframework.boot.actuate.autoconfigure.metrics.export.dynatrace;
 
+import io.micrometer.dynatrace.DynatraceApiVersion;
 import io.micrometer.dynatrace.DynatraceConfig;
-
 import org.springframework.boot.actuate.autoconfigure.metrics.export.properties.StepRegistryPropertiesConfigAdapter;
 
 import java.util.Map;
@@ -26,6 +26,7 @@ import java.util.Map;
  * Adapter to convert {@link DynatraceProperties} to a {@link DynatraceConfig}.
  *
  * @author Andy Wilkinson
+ * @author Georg Pirklbauer
  */
 class DynatracePropertiesConfigAdapter extends StepRegistryPropertiesConfigAdapter<DynatraceProperties>
 		implements DynatraceConfig {
@@ -65,7 +66,7 @@ class DynatracePropertiesConfigAdapter extends StepRegistryPropertiesConfigAdapt
 	}
 
 	@Override
-	public String apiVersion() {
+	public DynatraceApiVersion apiVersion() {
 		return get(DynatraceProperties::getApiVersion, DynatraceConfig.super::apiVersion);
 	}
 
@@ -81,6 +82,8 @@ class DynatracePropertiesConfigAdapter extends StepRegistryPropertiesConfigAdapt
 
 	@Override
 	public Boolean enrichWithOneAgentMetadata() {
-		return get(DynatraceProperties::getEnrichWithOneAgentMetadata, DynatraceConfig.super::enrichWithOneAgentMetadata);
+		return get(DynatraceProperties::getEnrichWithOneAgentMetadata,
+				DynatraceConfig.super::enrichWithOneAgentMetadata);
 	}
+
 }

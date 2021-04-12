@@ -16,6 +16,7 @@
 
 package org.springframework.boot.actuate.autoconfigure.metrics.export.dynatrace;
 
+import io.micrometer.dynatrace.DynatraceApiVersion;
 import org.springframework.boot.actuate.autoconfigure.metrics.export.properties.StepRegistryProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -62,7 +63,7 @@ public class DynatraceProperties extends StepRegistryProperties {
 	/**
 	 * The API version that Dynatrace metrics should be sent to. Defaults to v1.
 	 */
-	private String apiVersion = "v1";
+	private DynatraceApiVersion apiVersion = DynatraceApiVersion.V1;
 
 	/**
 	 * An optional prefix string that is added to all metrics exported to the v2 API.
@@ -70,16 +71,16 @@ public class DynatraceProperties extends StepRegistryProperties {
 	private String metricKeyPrefix;
 
 	/**
-	 * An optional Boolean that allows enabling of the OneAgent metadata export.
-	 * Off by default.
+	 * An optional Boolean that allows enabling of the OneAgent metadata export. Off by
+	 * default.
 	 */
 	private Boolean enrichWithOneAgentMetadata = false;
 
 	/**
-	 * Optional default dimensions that are added to all metrics in the form of key-value pairs.
+	 * Optional default dimensions that are added to all metrics in the form of key-value
+	 * pairs.
 	 */
 	private Map<String, String> defaultDimensions;
-	
 
 	public String getApiToken() {
 		return this.apiToken;
@@ -129,14 +130,6 @@ public class DynatraceProperties extends StepRegistryProperties {
 		this.metricKeyPrefix = metricKeyPrefix;
 	}
 
-	public String getApiVersion() {
-		return apiVersion;
-	}
-
-	public void setApiVersion(String apiVersion) {
-		this.apiVersion = apiVersion;
-	}
-
 	public Boolean getEnrichWithOneAgentMetadata() {
 		return enrichWithOneAgentMetadata;
 	}
@@ -152,4 +145,13 @@ public class DynatraceProperties extends StepRegistryProperties {
 	public void setDefaultDimensions(Map<String, String> defaultDimensions) {
 		this.defaultDimensions = defaultDimensions;
 	}
+
+	public DynatraceApiVersion getApiVersion() {
+		return apiVersion;
+	}
+
+	public void setApiVersion(DynatraceApiVersion apiVersion) {
+		this.apiVersion = apiVersion;
+	}
+
 }

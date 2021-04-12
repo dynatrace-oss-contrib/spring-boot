@@ -16,7 +16,10 @@
 
 package org.springframework.boot.actuate.autoconfigure.metrics.export.dynatrace;
 
+import io.micrometer.dynatrace.DynatraceApiVersion;
 import org.junit.jupiter.api.Test;
+
+import java.util.HashMap;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -60,6 +63,42 @@ class DynatracePropertiesConfigAdapterTests {
 		DynatraceProperties properties = new DynatraceProperties();
 		properties.setGroup("group-1");
 		assertThat(new DynatracePropertiesConfigAdapter(properties).group()).isEqualTo("group-1");
+	}
+
+	@Test
+	void whenPropertiesApiVersionIsSetAdapterGroupReturnsIt() {
+		DynatraceProperties properties = new DynatraceProperties();
+		properties.setApiVersion(DynatraceApiVersion.V1);
+		assertThat(new DynatracePropertiesConfigAdapter(properties).apiVersion()).isSameAs(DynatraceApiVersion.V1);
+	}
+
+	@Test
+	void whenPropertiesMetricKeyPrefixIsSetAdapterGroupReturnsIt() {
+		DynatraceProperties properties = new DynatraceProperties();
+		properties.setMetricKeyPrefix("my.prefix");
+		assertThat(new DynatracePropertiesConfigAdapter(properties).metricKeyPrefix()).isEqualTo("my.prefix");
+	}
+
+	@Test
+	void whenPropertiesEnrichWithOneAgentMetadataIsSetAdapterGroupReturnsIt() {
+		DynatraceProperties properties = new DynatraceProperties();
+		properties.setEnrichWithOneAgentMetadata(true);
+		assertThat(new DynatracePropertiesConfigAdapter(properties).enrichWithOneAgentMetadata()).isTrue();
+	}
+
+	@Test
+	void whenPropertiesDefaultDimensionsIsSetAdapterGroupReturnsIt() {
+		DynatraceProperties properties = new DynatraceProperties();
+		HashMap<String, String> defaultDimensions = new HashMap<String, String>() {
+			{
+				put("dim1", "value1");
+				put("dim2", "value2");
+			}
+		};
+
+		properties.setDefaultDimensions(defaultDimensions);
+		assertThat(new DynatracePropertiesConfigAdapter(properties).defaultDimensions())
+				.containsExactlyEntriesOf(defaultDimensions);
 	}
 
 }
