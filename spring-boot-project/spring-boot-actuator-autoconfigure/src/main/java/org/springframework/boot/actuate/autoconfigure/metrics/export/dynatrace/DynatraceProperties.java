@@ -34,51 +34,60 @@ public class DynatraceProperties extends StepRegistryProperties {
 
 	/**
 	 * Dynatrace authentication token.
+	 * API v1: required, API v2: optional
 	 */
 	private String apiToken;
 
 	/**
 	 * ID of the custom device that is exporting metrics to Dynatrace.
+	 * API v1: required, API v2: discarded
 	 */
 	private String deviceId;
 
 	/**
 	 * Technology type for exported metrics. Used to group metrics under a logical
 	 * technology name in the Dynatrace UI.
+	 * API v1: required, API v2: discarded
 	 */
 	private String technologyType = "java";
 
 	/**
 	 * URI to ship metrics to. Should be used for SaaS, self managed instances or to
 	 * en-route through an internal proxy.
+	 * API v1: required, API v2: optional
 	 */
 	private String uri;
 
 	/**
 	 * Group for exported metrics. Used to specify custom device group name in the
 	 * Dynatrace UI.
+	 * API v1: required, API v2: discarded
 	 */
 	private String group;
 
 	/**
-	 * The API version that Dynatrace metrics should be sent to. Defaults to v1.
+	 * The Dynatrace metrics API version that metrics should be sent to. Defaults to v1.
+	 * Required to define which API is used for export.
 	 */
 	private DynatraceApiVersion apiVersion = DynatraceApiVersion.V1;
 
 	/**
-	 * An optional prefix string that is added to all metrics exported to the v2 API.
+	 * An optional prefix string that is added to all metrics exported. Only applicable to the v2 API.
+	 * API v1: discarded, API v2: optional
 	 */
 	private String metricKeyPrefix;
 
 	/**
 	 * An optional Boolean that allows enabling of the OneAgent metadata export. Off by
 	 * default.
+	 * API v1: discarded, API v2: optional
 	 */
 	private Boolean enrichWithOneAgentMetadata = false;
 
 	/**
 	 * Optional default dimensions that are added to all metrics in the form of key-value
-	 * pairs.
+	 * pairs. These are overwritten by Micrometer tags if they use the same key.
+	 * API v1: discarded, API v2: optional
 	 */
 	private Map<String, String> defaultDimensions;
 
