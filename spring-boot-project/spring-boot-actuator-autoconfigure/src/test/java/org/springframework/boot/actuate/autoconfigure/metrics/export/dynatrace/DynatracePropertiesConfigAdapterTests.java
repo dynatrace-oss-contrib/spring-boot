@@ -17,6 +17,7 @@
 package org.springframework.boot.actuate.autoconfigure.metrics.export.dynatrace;
 
 import io.micrometer.dynatrace.DynatraceApiVersion;
+import io.micrometer.dynatrace.DynatraceConfig;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
@@ -101,4 +102,17 @@ class DynatracePropertiesConfigAdapterTests {
 				.containsExactlyEntriesOf(defaultDimensions);
 	}
 
+	@Test
+	void defaultValues() {
+		DynatraceProperties properties = new DynatraceProperties();
+		assertThat(properties.getApiToken()).isNull();
+		assertThat(properties.getDeviceId()).isNull();
+		assertThat(properties.getTechnologyType()).isEqualTo("java");
+		assertThat(properties.getUri()).isNull();
+		assertThat(properties.getGroup()).isNull();
+		assertThat(properties.getApiVersion()).isSameAs(DynatraceApiVersion.V1);
+		assertThat(properties.getMetricKeyPrefix()).isNull();
+		assertThat(properties.getEnrichWithOneAgentMetadata()).isFalse();
+		assertThat(properties.getDefaultDimensions()).isNull();
+	}
 }
