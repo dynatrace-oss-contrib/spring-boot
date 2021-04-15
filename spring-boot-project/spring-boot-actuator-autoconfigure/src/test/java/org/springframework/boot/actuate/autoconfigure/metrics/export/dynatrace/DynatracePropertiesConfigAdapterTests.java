@@ -115,4 +115,5 @@ class DynatracePropertiesConfigAdapterTests {
 		assertThat(properties.getEnrichWithOneAgentMetadata()).isFalse();
 		assertThat(properties.getDefaultDimensions()).isNull();
 	}
+
 }
