@@ -33,6 +33,12 @@ import java.util.Map;
 public class DynatraceProperties extends StepRegistryProperties {
 
 	/**
+	 * The Dynatrace metrics API version that metrics should be sent to. Defaults to v1.
+	 * Required to define which API is used for export.
+	 */
+	private DynatraceApiVersion apiVersion = DynatraceApiVersion.V1;
+
+	/**
 	 * Dynatrace authentication token.
 	 *
 	 * API v1: required, API v2: optional
@@ -42,7 +48,7 @@ public class DynatraceProperties extends StepRegistryProperties {
 	/**
 	 * ID of the custom device that is exporting metrics to Dynatrace.
 	 *
-	 * API v1: required, API v2: discarded
+	 * API v1: required, API v2: not applicable (ignored)
 	 */
 	private String deviceId;
 
@@ -50,7 +56,7 @@ public class DynatraceProperties extends StepRegistryProperties {
 	 * Technology type for exported metrics. Used to group metrics under a logical
 	 * technology name in the Dynatrace UI.
 	 *
-	 * API v1: required, API v2: discarded
+	 * API v1: required, API v2: not applicable (ignored)
 	 */
 	private String technologyType = "java";
 
@@ -66,21 +72,15 @@ public class DynatraceProperties extends StepRegistryProperties {
 	 * Group for exported metrics. Used to specify custom device group name in the
 	 * Dynatrace UI.
 	 *
-	 * API v1: required, API v2: discarded
+	 * API v1: required, API v2: not applicable (ignored)
 	 */
 	private String group;
-
-	/**
-	 * The Dynatrace metrics API version that metrics should be sent to. Defaults to v1.
-	 * Required to define which API is used for export.
-	 */
-	private DynatraceApiVersion apiVersion = DynatraceApiVersion.V1;
 
 	/**
 	 * An optional prefix string that is added to all metrics exported. Only applicable to
 	 * the v2 API.
 	 *
-	 * API v1: discarded, API v2: optional
+	 * API v1: not applicable (ignored), API v2: optional
 	 */
 	private String metricKeyPrefix;
 
@@ -88,7 +88,7 @@ public class DynatraceProperties extends StepRegistryProperties {
 	 * An optional Boolean that allows enabling of the OneAgent metadata export. Off by
 	 * default.
 	 *
-	 * API v1: discarded, API v2: optional
+	 * API v1: not applicable (ignored), API v2: optional
 	 */
 	private Boolean enrichWithOneAgentMetadata = false;
 
@@ -96,7 +96,7 @@ public class DynatraceProperties extends StepRegistryProperties {
 	 * Optional default dimensions that are added to all metrics in the form of key-value
 	 * pairs. These are overwritten by Micrometer tags if they use the same key.
 	 *
-	 * API v1: discarded, API v2: optional
+	 * API v1: not applicable (ignored), API v2: optional
 	 */
 	private Map<String, String> defaultDimensions;
 
