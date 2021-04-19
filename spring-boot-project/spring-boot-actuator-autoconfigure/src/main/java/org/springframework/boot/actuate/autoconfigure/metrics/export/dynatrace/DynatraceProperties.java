@@ -77,8 +77,7 @@ public class DynatraceProperties extends StepRegistryProperties {
 	private String group;
 
 	/**
-	 * An optional prefix string that is added to all metrics exported. Only applicable to
-	 * the v2 API.
+	 * An optional prefix string that is added to all metrics exported.
 	 *
 	 * API v1: not applicable (ignored), API v2: optional
 	 */
