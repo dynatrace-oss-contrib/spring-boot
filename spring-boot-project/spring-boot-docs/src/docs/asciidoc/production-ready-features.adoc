@@ -1723,11 +1723,14 @@ You can also change the interval at which metrics are sent to Datadog:
 	        step: "30s"
 ----
 
-
-
 [[production-ready-metrics-export-dynatrace]]
 ==== Dynatrace
-Dynatrace registry pushes metrics to the configured URI periodically.
+
+Dynatrace offers two metrics ingest APIs:
+
+===== API v1
+
+The Dynatrace API v1 registry pushes metrics to the configured URI periodically using the https://www.dynatrace.com/support/help/dynatrace-api/environment-api/metric-v1/[Timeseries API v1].
 To export metrics to {micrometer-registry-docs}/dynatrace[Dynatrace], your API token, device ID, and URI must be provided:
 
 [source,yaml,indent=0,configprops,configblocks]
@@ -1741,7 +1744,62 @@ To export metrics to {micrometer-registry-docs}/dynatrace[Dynatrace], your API t
 	        uri: "YOUR_URI"
 ----
 
-You can also change the interval at which metrics are sent to Dynatrace:
+===== API v2
+
+The API v2 can be used in two ways:
+
+If a local OneAgent is running on the machine, it is enough to tell the exporter to use v2 and metrics will be automatically exported to the https://www.dynatrace.com/support/help/how-to-use-dynatrace/metrics/metric-ingestion/ingestion-methods/local-api/[local OneAgent ingest endpoint], which forwards them to the Dynatrace backend:
+
+[source,yaml,indent=0,configprops,configblocks]
+----
+	management:
+	  metrics:
+	    export:
+	      dynatrace:
+	        api-version: "v2"
+----
+
+Note that the https://www.dynatrace.com/support/help/how-to-use-dynatrace/metrics/metric-ingestion/ingestion-methods/local-api/[local OneAgent endpoint] will have to be enabled first as stated in the documentation.
+
+If no local OneAgent is running, the endpoint of the https://www.dynatrace.com/support/help/dynatrace-api/environment-api/metric-v2/post-ingest-metrics/[Metrics API v2] and an API token are required.
+The https://www.dynatrace.com/support/help/dynatrace-api/basics/dynatrace-api-authentication/[API token] must have the "Ingest metrics" (`metrics.ingest`) permission set.
+It is recommended to limit scope to only this one permission.
+
+[source,yaml,indent=0,configprops,configblocks]
+----
+	management:
+	  metrics:
+	    export:
+	      dynatrace:
+	        api-version: "v2"
+	        api-token: "YOUR_TOKEN"
+	        uri: "YOUR_URI"
+----
+
+When using the Dynatrace v2 API, the following optional features are available:
+
+* Metric key prefix: Sets a prefix that will be prepended to all exported metric names.
+* Enrich with OneAgent metadata: If a OneAgent is running, enrich metrics with information about the host and the process.
+* Default dimensions: Specify key-value pairs that are added to all exported metrics.
+  If tags with the same key are specified using Micrometer, they overwrite the default dimensions.
+
+[source,yaml,indent=0,configprops,configblocks]
+----
+	management:
+	  metrics:
+	    export:
+	      dynatrace:
+	        # specify token and uri or leave blank for OneAgent export
+	        api-version: "v2"
+            metric-key-prefix: "your.key.prefix"
+	        enrich-with-one-agent-metadata: true
+	        default-dimensions:
+	          key1: "value1"
+	          key2: "value2"
+----
+
+You can also change the interval at which metrics are sent to Dynatrace (works for both API versions).
+The default export interval is `60s`.
 
 [source,yaml,indent=0,configprops,configblocks]
 ----
@@ -1751,7 +1809,6 @@ You can also change the interval at which metrics are sent to Dynatrace:
 	      dynatrace:
 	        step: "30s"
 ----
-
 
 
 [[production-ready-metrics-export-elastic]]
