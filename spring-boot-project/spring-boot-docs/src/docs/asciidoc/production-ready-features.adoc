@@ -1726,29 +1726,13 @@ You can also change the interval at which metrics are sent to Datadog:
 [[production-ready-metrics-export-dynatrace]]
 ==== Dynatrace
 
-Dynatrace offers two metrics ingest APIs:
-
-===== API v1
-
-The Dynatrace API v1 registry pushes metrics to the configured URI periodically using the https://www.dynatrace.com/support/help/dynatrace-api/environment-api/metric-v1/[Timeseries API v1].
-To export metrics to {micrometer-registry-docs}/dynatrace[Dynatrace], your API token, device ID, and URI must be provided:
-
-[source,yaml,indent=0,configprops,configblocks]
-----
-	management:
-	  metrics:
-	    export:
-	      dynatrace:
-	        api-token: "YOUR_TOKEN"
-	        device-id: "YOUR_DEVICE_ID"
-	        uri: "YOUR_URI"
-----
+Dynatrace offers two metrics ingest APIs, both of which are implemented for {micrometer-registry-docs}/dynatrace[Micrometer]:
 
 ===== API v2
 
 The API v2 can be used in two ways:
 
-If a local OneAgent is running on the machine, it is enough to tell the exporter to use v2 and metrics will be automatically exported to the https://www.dynatrace.com/support/help/how-to-use-dynatrace/metrics/metric-ingestion/ingestion-methods/local-api/[local OneAgent ingest endpoint], which forwards them to the Dynatrace backend:
+If a local OneAgent is running on the host, it is enough to set the API version to v2 and metrics will be automatically exported to the https://www.dynatrace.com/support/help/how-to-use-dynatrace/metrics/metric-ingestion/ingestion-methods/local-api/[local OneAgent ingest endpoint], which forwards them to the Dynatrace backend:
 
 [source,yaml,indent=0,configprops,configblocks]
 ----
@@ -1759,11 +1743,10 @@ If a local OneAgent is running on the machine, it is enough to tell the exporter
 	        api-version: "v2"
 ----
 
-Note that the https://www.dynatrace.com/support/help/how-to-use-dynatrace/metrics/metric-ingestion/ingestion-methods/local-api/[local OneAgent endpoint] will have to be enabled first as stated in the documentation.
-
 If no local OneAgent is running, the endpoint of the https://www.dynatrace.com/support/help/dynatrace-api/environment-api/metric-v2/post-ingest-metrics/[Metrics API v2] and an API token are required.
 The https://www.dynatrace.com/support/help/dynatrace-api/basics/dynatrace-api-authentication/[API token] must have the "Ingest metrics" (`metrics.ingest`) permission set.
 It is recommended to limit scope to only this one permission.
+Please ensure that the endpoint URI contains the path (e.g. `/api/v2/metrics/ingest`).
 
 [source,yaml,indent=0,configprops,configblocks]
 ----
@@ -1773,7 +1756,8 @@ It is recommended to limit scope to only this one permission.
 	      dynatrace:
 	        api-version: "v2"
 	        api-token: "YOUR_TOKEN"
-	        uri: "YOUR_URI"
+	        uri: "https://{your-environment-id}.live.dynatrace.com/api/v2/metrics/ingest"
+            # or "https://{your-domain}/e/{your-environment-id}/api/v2/metrics/ingest" for managed deployments.
 ----
 
 When using the Dynatrace v2 API, the following optional features are available:
@@ -1781,7 +1765,7 @@ When using the Dynatrace v2 API, the following optional features are available:
 * Metric key prefix: Sets a prefix that will be prepended to all exported metric names.
 * Enrich with OneAgent metadata: If a OneAgent is running, enrich metrics with information about the host and the process.
 * Default dimensions: Specify key-value pairs that are added to all exported metrics.
-  If tags with the same key are specified using Micrometer, they overwrite the default dimensions.
+If tags with the same key are specified using Micrometer, they overwrite the default dimensions.
 
 [source,yaml,indent=0,configprops,configblocks]
 ----
@@ -1798,6 +1782,25 @@ When using the Dynatrace v2 API, the following optional features are available:
 	          key2: "value2"
 ----
 
+===== API v1 (Legacy)
+
+The Dynatrace API v1 registry pushes metrics to the configured URI periodically using the https://www.dynatrace.com/support/help/dynatrace-api/environment-api/metric-v1/[Timeseries API v1].
+To export metrics to {micrometer-registry-docs}/dynatrace[Dynatrace], your API token, device ID, and URI must be provided:
+For the v1 API, the base URI needs to be specified, excluding the path.
+It will be added automatically.
+
+[source,yaml,indent=0,configprops,configblocks]
+----
+	management:
+	  metrics:
+	    export:
+	      dynatrace:
+	        api-token: "YOUR_TOKEN"
+	        device-id: "YOUR_DEVICE_ID"
+	        uri: "https://{your-environment-id}.live.dynatrace.com"
+            # or "https://{your-domain}/e/{your-environment-id}" on managed deployments.
+----
+
 You can also change the interval at which metrics are sent to Dynatrace (works for both API versions).
 The default export interval is `60s`.
 
@@ -1810,6 +1813,7 @@ The default export interval is `60s`.
 	        step: "30s"
 ----
 
+More information on how to set up the Dynatrace exporter for Micrometer can be found in {micrometer-registry-docs}/dynatrace[the Micrometer documentation].
 
 [[production-ready-metrics-export-elastic]]
 ==== Elastic
