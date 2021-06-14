@@ -1802,6 +1802,8 @@ The API v1 endpoint path will be added automatically.
 	        api-token: "YOUR_TOKEN" # should be read from a secure property source
 ----
 
+===== Version-independent settings
+
 You can also change the interval at which metrics are sent to Dynatrace (works for both API versions).
 The default export interval is `60s`.
 
