@@ -156,8 +156,8 @@ Otherwise, `v2` is assumed.
 
 You can use the v2 API in two ways.
 
-[[actuator.metrics.export.dynatrace.v2-api-auto-config]]
-===== Auto-configuration
+[[actuator.metrics.export.dynatrace.v2-api.auto-config]]
+====== Auto-configuration
 
 Dynatrace auto-configuration is available for hosts that are monitored by a OneAgent or by the Dynatrace Operator for Kubernetes.
 
@@ -168,8 +168,8 @@ Dynatrace operator-based autoconfiguration is available from Micrometer version 
 
 This is the default behavior and requires no special setup beyond a dependency on `io.micrometer:micrometer-registry-dynatrace`.
 
-[[actuator.metrics.export.dynatrace.v2-api-manual-config]]
-===== Manual configuration
+[[actuator.metrics.export.dynatrace.v2-api.manual-config]]
+====== Manual configuration
 
 If no auto-configuration is available, the endpoint of the {dynatrace-help}/dynatrace-api/environment-api/metric-v2/post-ingest-metrics/[Metrics v2 API] and an API token are required.
 The {dynatrace-help}/dynatrace-api/basics/dynatrace-api-authentication/[API token] must have the "`Ingest metrics`" (`metrics.ingest`) permission set.
