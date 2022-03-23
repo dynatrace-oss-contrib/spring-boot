@@ -159,12 +159,12 @@ You can use the v2 API in two ways.
 [[actuator.metrics.export.dynatrace.v2-api.auto-config]]
 ====== Auto-configuration
 
-Dynatrace auto-configuration is available for hosts that are monitored by a OneAgent or by the Dynatrace Operator for Kubernetes.
+Dynatrace auto-configuration is available for hosts that are monitored by the OneAgent or by the Dynatrace Operator for Kubernetes.
 
 If a local OneAgent is running on the host, metrics are automatically exported to the {dynatrace-help}/how-to-use-dynatrace/metrics/metric-ingestion/ingestion-methods/local-api/[local OneAgent ingest endpoint].
 The ingest endpoint forwards the metrics to the Dynatrace backend.
-If running in Kubernetes with the Dynatrace operator installed, the registry will pick up your endpoint URI and API token from the operator instead.
-Dynatrace operator-based autoconfiguration is available from Micrometer version `1.9.0`, which is distributed with Spring Boot since version `2.7.0`.
+When running in Kubernetes with the Dynatrace Operator installed, the registry will automatically pick up your endpoint URI and API token from the operator instead.
+Dynatrace Operator-based auto-configuration is available from Micrometer version `1.9.0`, which is distributed with Spring Boot since version `2.7.0`.
 
 This is the default behavior and requires no special setup beyond a dependency on `io.micrometer:micrometer-registry-dynatrace`.
 
