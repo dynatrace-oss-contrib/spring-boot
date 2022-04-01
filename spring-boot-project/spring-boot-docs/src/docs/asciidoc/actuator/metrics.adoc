@@ -161,7 +161,7 @@ You can use the v2 API in two ways.
 
 Dynatrace auto-configuration is available for hosts that are monitored by the OneAgent or by the Dynatrace Operator for Kubernetes.
 
-**Local OneAgent:** If a local OneAgent is running on the host, metrics are automatically exported to the {dynatrace-help}/how-to-use-dynatrace/metrics/metric-ingestion/ingestion-methods/local-api/[local OneAgent ingest endpoint].
+**Local OneAgent:** If a OneAgent is running on the host, metrics are automatically exported to the {dynatrace-help}/how-to-use-dynatrace/metrics/metric-ingestion/ingestion-methods/local-api/[local OneAgent ingest endpoint].
 The ingest endpoint forwards the metrics to the Dynatrace backend.
 
 **Dynatrace Kubernetes Operator:** When running in Kubernetes with the Dynatrace Operator installed, the registry will automatically pick up your endpoint URI and API token from the operator instead.
@@ -194,7 +194,7 @@ The example below configures metrics export using the `example` environment id:
 	        api-token: "YOUR_TOKEN"
 ----
 
-When using the Dynatrace v2 API, the following optional features are available (more info in the {dynatrace-help}/how-to-use-dynatrace/metrics/metric-ingestion/ingestion-methods/micrometer#dt-configuration-properties[Dynatrace documentation]):
+When using the Dynatrace v2 API, the following optional features are available (more details can be found in the {dynatrace-help}/how-to-use-dynatrace/metrics/metric-ingestion/ingestion-methods/micrometer#dt-configuration-properties[Dynatrace documentation]):
 
 * Metric key prefix: Sets a prefix that is prepended to all exported metric keys.
 * Enrich with Dynatrace metadata: If a OneAgent or Dynatrace operator is running, enrich metrics with additional metadata (for example, about the host, process, or pod).
@@ -258,7 +258,7 @@ The following example sets the export interval to 30 seconds:
 	        step: "30s"
 ----
 
-You can find more information on how to set up the Dynatrace exporter for Micrometer in {micrometer-registry-docs}/dynatrace[the Micrometer documentation] and {dynatrace-help}/how-to-use-dynatrace/metrics/metric-ingestion/ingestion-methods/micrometer[the Dynatrace documentation].
+You can find more information on how to set up the Dynatrace exporter for Micrometer in the {micrometer-registry-docs}/dynatrace[Micrometer documentation] and the {dynatrace-help}/how-to-use-dynatrace/metrics/metric-ingestion/ingestion-methods/micrometer[Dynatrace documentation].
 
 
 
